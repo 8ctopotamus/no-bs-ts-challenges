@@ -2,7 +2,7 @@
 
 interface MyUser {
   name: string
-  id: string
+  id: number
   email?: string
 }
 
@@ -23,7 +23,7 @@ const merge = (user: MyUser, overrides: MyUserOptionals): MyUser => {
 
 const mergedUserData = merge({
   name: 'Josh',
-  id: 'foo',
+  id: 2,
   email: 'test@test.com'
 }, {
   email: 'test222@test.com'
@@ -40,15 +40,19 @@ type JustEmailAndName = Pick<MyUser, 'email' | 'name'>
 // note: creating placeholder data for next example
 const users: MyUser[] = [mergedUserData, mergedUserData, mergedUserData].map((user, i) => ({
   ...user,
-  id: i.toString(),
+  id: i,
 }))
 
-// Map
-const mapById = (users: MyUser[]): Record<string, MyUser> => {
+// Omit (excludes a key)
+type UserWithoutId = Omit<MyUser, 'id'>
+
+// Record (key/val pairs) 
+const mapById = (users: MyUser[]): Record<MyUser['id'], UserWithoutId> => {
   return users.reduce((prev, user) => {
+    const { id, ...userData } = user
     return {
       ...prev,
-      [user.id]: user,
+      [id]: userData,
     }
   }, {})
 }
