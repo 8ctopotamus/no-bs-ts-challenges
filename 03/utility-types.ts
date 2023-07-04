@@ -45,10 +45,10 @@ const users: MyUser[] = [mergedUserData, mergedUserData, mergedUserData].map((us
 
 // Map
 const mapById = (users: MyUser[]): Record<string, MyUser> => {
-  return users.reduce((a, v) => {
+  return users.reduce((prev, user) => {
     return {
-      ...a,
-      [v.id]: v,
+      ...prev,
+      [user.id]: user,
     }
   }, {})
 }
